@@ -1,0 +1,9 @@
+.pio
+.ccls
+.ccls-cache
+.cache
+compile_commands.json
+.vscode
+.clangd
+.compiledb.py
+logs/device*

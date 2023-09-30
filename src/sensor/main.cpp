@@ -1,10 +1,16 @@
 #include "Arduino.h"
+#include "LoRa.h"
+#include "LoraHandler.hpp"
 #include "Srf02.hpp"
+#include "Timer.hpp"
+#include "range.hpp"
 #include "sender.hpp"
+#include "sensor/message_builder.hpp"
+#include "sensor/range.hpp"
+#include "sensor/receiver.hpp"
+#include "sensor/transport_layer.hpp"
 #include <Logger.hpp>
 #include <algorithm>
-
-Srf02 sensor(0xE0, 1);
 
 void setup() {
   Serial.begin(115200);
@@ -12,23 +18,39 @@ void setup() {
   while (!Serial)
     ;
 
-  if (sensor.begin() != Srf02::Status::ok) {
-    Serial.println("Error initializing sensor");
+  if (!LoRa.begin(868E6)) {
+    serial.log(LogLevel::failure, "LoRa init failed. Check your connections.");
     while (1)
       ;
   }
 
-  sensor.unit(Srf02::Unit::cm);
+  loraHandler.setup(loraConfig);
+
+  init_sensor();
 }
+
+Timer log_timer(std::chrono::milliseconds(3000));
 
 void loop() {
 
-  Srf02::Status ret = sensor.startMeasurement();
+  /* Store measurments */
+  store_range();
 
-  if (ret == Srf02::Status::ok) {
-    uint16_t range;
-    sensor.readRange(range);
+  /* Store received messages */
+  receive_messages();
 
-    sender.send(range);
+  /* Build messages */
+  build_messages();
+
+  /* Process built messages and received ACKs */
+  process_messages();
+
+  /* Send messages */
+  send_message();
+
+  if (log_timer.hasTimedOut()) {
+    serial.log(LogLevel::info, "Range buffer size: ", range_buffer.size());
+    serial.log(LogLevel::info, "Message buffer size: ", message_buffer.size());
+    serial.log(LogLevel::info, "Message queue size: ", message_queue.size());
   }
 }

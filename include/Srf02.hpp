@@ -13,7 +13,7 @@
  */
 class Srf02 {
 public:
-  Srf02(uint8_t address, uint8_t sensorId);
+  Srf02(uint8_t address);
   ~Srf02();
 
   /**
@@ -48,8 +48,8 @@ public:
   inline uint16_t address(void) const { return address_ << 1; };
 
   /**
-   * Take a distance measurement from the sensor. The returned value's unit
-   * depends on the previously set unit, defaults to cm.
+   * Start measurement, must be called before Srf02::readRange. The returned
+   * value's unit depends on the previously set unit, defaults to cm.
    *
    * @param[out] range Variable where to store the taken measurement in case of
    * success.
@@ -59,6 +59,18 @@ public:
    *         - delay_not_acomplished
    */
   Status startMeasurement(void);
+
+  /**
+   * Read taken measurement from sensors register. The returned value's unit
+   * depends on the previously set unit, defaults to cm.
+   *
+   * @param[out] range Variable where to store the taken measurement in case of
+   * success.
+   *
+   * @return Success status, either of:
+   *         - ok
+   *         - delay_not_acomplished
+   */
   Status readRange(uint16_t &range);
 
   /**

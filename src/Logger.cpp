@@ -47,7 +47,7 @@ void Logger::log(LogLevel level, const char *logMessage, Message message) {
   Serial.print("\t\tRecipient address: 0x");
   Serial.println(message.destinationAddress, HEX);
   Serial.print("\t\tMessage ID: 0x");
-  Serial.println(message.id, HEX);
+  Serial.println(message.seq, HEX);
   Serial.print("\t\tMessage type: ");
   Serial.println(message.type < messageTypesNames.size()
                      ? messageTypesNames[message.type]

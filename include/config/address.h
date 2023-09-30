@@ -3,8 +3,6 @@
 #include <chrono>
 #include <cstdint>
 
-constexpr auto initialIntervalBetweenTx = std::chrono::milliseconds(10000);
-
 constexpr uint8_t collectorAddress = 0xB0;
 
 #ifdef COLLECTOR

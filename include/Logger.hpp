@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Buffer.hpp"
 #include <Arduino.h>
 #include <initializer_list>
 #include <types/Message.hpp>
@@ -18,6 +19,21 @@ public:
 
   void log(LogLevel, const char *, const char *endStr = "\n");
 
+  template <typename T, size_t capacity>
+  void log(LogLevel level, const char *msg, Buffer<T, capacity> &buffer,
+           void (*print_f)(const T &)) {
+    printLabel(level);
+
+    Serial.print(msg);
+
+    for (size_t i = 0; i < buffer.size(); i++) {
+      print_f(*buffer[i]);
+      Serial.print(" ");
+    }
+
+    Serial.println();
+  }
+
   /**
    * Log out succession of " " separated values with arbitrary types.
    *
@@ -33,6 +49,7 @@ public:
   }
 
   void log(LogLevel, const char *, Message);
+
   void printLegend();
 
 private:

@@ -1,6 +1,8 @@
 #include <DutyCycleManager/ArduinoClock.hpp>
 #include <cstdint>
 
+constexpr auto initial_interval_between_tx = std::chrono::milliseconds(10000);
+
 /**
  *  Updates interval between transmissions to ensure a duty cycle under 1%
  */

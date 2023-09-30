@@ -1,4 +1,3 @@
-#include "config.h"
 #include <DutyCycleManager/DutyCycleManager.hpp>
 #include <Logger.hpp>
 #include <chrono>

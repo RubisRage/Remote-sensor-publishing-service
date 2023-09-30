@@ -2,6 +2,8 @@
 
 #include "Logger.hpp"
 
+#define TRANSITION(func) func, #func
+
 class StateMachine {
 
   typedef void (*state)();

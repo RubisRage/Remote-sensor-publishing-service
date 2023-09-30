@@ -2,13 +2,12 @@
 #include <LoRa.h>
 #include <Logger.hpp>
 #include <LoraHandler.hpp>
-#include <config.h>
 #include <cstring>
 #include <stdlib.h>
 
 LoraHandler::LoraHandler()
     : lastReceived(), _hasBeenRead(true),
-      dutyCycleManager(initialIntervalBetweenTx) {}
+      dutyCycleManager(initial_interval_between_tx) {}
 
 bool LoraHandler::send(Message &message) {
   if (!dutyCycleManager.canTransmit())
@@ -22,8 +21,8 @@ bool LoraHandler::send(Message &message) {
 
   LoRa.write(message.destinationAddress);
   LoRa.write(message.sourceAddress);
-  LoRa.write((uint8_t)(message.id >> 8));
-  LoRa.write((uint8_t)(message.id & 0xFF));
+  LoRa.write((uint8_t)(message.seq >> 8));
+  LoRa.write((uint8_t)(message.seq & 0xFF));
   LoRa.write(message.type);
   LoRa.write(message.payloadLength);
   LoRa.write(message.payload.data(), (size_t)message.payloadLength);
@@ -51,7 +50,7 @@ void LoraHandler::storeMessage() {
 
   lastReceived.destinationAddress = LoRa.read();
   lastReceived.sourceAddress = LoRa.read();
-  lastReceived.id = ((uint16_t)LoRa.read() << 8) | (uint16_t)LoRa.read();
+  lastReceived.seq = ((uint16_t)LoRa.read() << 8) | (uint16_t)LoRa.read();
   lastReceived.type = Message::Type(LoRa.read());
   lastReceived.payloadLength = LoRa.read();
 
@@ -86,7 +85,7 @@ void LoraHandler::storeMessage() {
   _hasBeenRead = false;
 }
 
-void LoraHandler::setup(const LoRaConfig &config, void (*onReceive)(int)) {
+void LoraHandler::setup(const LoRaConfig &config) {
   LoRa.setSyncWord(0x12);
   LoRa.setPreambleLength(8);
 

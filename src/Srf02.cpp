@@ -3,7 +3,7 @@
 
 bool Srf02::initialized = false;
 
-Srf02::Srf02(uint8_t address, uint8_t sensorId)
+Srf02::Srf02(uint8_t address)
     : address_(address >> 1), unit_(Srf02::Unit::cm),
       last_measurement_ms_(millis()) {}
 

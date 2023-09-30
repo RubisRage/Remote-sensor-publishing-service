@@ -18,7 +18,7 @@ public:
    * Initialization function. Must be called at least once before
    * using any other function.
    */
-  void setup(const LoRaConfig &config, void (*onReceive)(int) = nullptr);
+  void setup(const LoRaConfig &config);
 
   /**
    * Send message using LoRa library.
@@ -59,8 +59,6 @@ private:
   Message lastReceived;
   bool _hasBeenRead;
   DutyCycleManager dutyCycleManager;
-
-  static void onReceive(int packetSize);
 };
 
 extern LoraHandler loraHandler;

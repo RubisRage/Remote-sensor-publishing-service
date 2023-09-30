@@ -1,9 +1,11 @@
+#pragma once
+
 #include <array>
 #include <cstddef>
 
 template <typename T, size_t capacity> class Buffer {
 public:
-  ~Buffer();
+  ~Buffer() = default;
 
   Buffer() : buffer(), buffer_start(0), buffer_end(0) {}
 
@@ -14,6 +16,7 @@ public:
 
     buffer[buffer_end] = value;
     increment(buffer_end);
+    size_++;
 
     return true;
   }
@@ -36,22 +39,17 @@ public:
     return &buffer[buffer_start];
   }
 
-  void pop() {
-    if (buffer_start == buffer_end) {
-      return;
+  bool pop(size_t count = 1) {
+    if (size() < count) {
+      return false;
     }
 
-    increment(buffer_start);
+    increment(buffer_start, count);
+    size_ -= count;
+    return true;
   }
 
-  size_t size() const {
-    size_t diff = buffer_end - buffer_start;
-    if (diff < 0) {
-      return buffer.size() - diff - 1;
-    }
-
-    return diff;
-  }
+  size_t size() const { return size_; }
 
   void increment(size_t &index, size_t inc = 1) {
     index = (index + inc) % buffer.size();
@@ -60,4 +58,5 @@ public:
   std::array<T, capacity> buffer;
   size_t buffer_start;
   size_t buffer_end;
+  size_t size_;
 };

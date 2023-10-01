@@ -1,12 +1,12 @@
 #pragma once
 
-#include <DutyCycleManager/ArduinoClock.hpp>
+#include <ArduinoClock.hpp>
 #include <Srf02.hpp>
 #include <cstddef>
 #include <cstdint>
 
 constexpr Srf02::Unit sensor_unit = Srf02::Unit::cm;
-constexpr size_t range_buffer_capacity = 1024;
+constexpr size_t range_buffer_capacity = 512;
 constexpr ArduinoClock::duration sensor_read_period =
     std::chrono::milliseconds(100);
 

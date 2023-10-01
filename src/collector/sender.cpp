@@ -1,7 +1,7 @@
 #include "sender.hpp"
 #include "LoraHandler.hpp"
 
-Buffer<Message *, max_window_size> message_queue;
+Buffer<Message, number_of_sensor_devices> message_queue;
 
 void send_message() {
   if (message_queue.size() == 0) {
@@ -12,6 +12,6 @@ void send_message() {
     return;
   }
 
-  loraHandler.send(**message_queue.peek());
+  loraHandler.send(*message_queue.peek());
   message_queue.pop();
 }

@@ -6,21 +6,22 @@
 #include <cstdint>
 
 constexpr std::array<const char *, 3> messageTypesNames = {"unititialized",
-                                                           "range", "ack"};
+                                                           "range", "control"};
 /*
- * Payload format for message types
+ * Payload format for message types (bytewise)
  *
  * Range:
  *
  * | range1 highbyte | range1 lowbyte | range2 highbyte | range2 lowbyte | ...
  *
- * Ack:
+ * Control:
+ * | ACK (0) | next_seq highbyte | next_seq lowbyte
+ * | ARQ (1) | seq1 highbyte | seq1 lowbyte | seq2 highbyte | seq2 lowbyte | ...
  *
- * | seq1 highbyte | seq1 lowbyte | seq2 highbyte | seq2 lowbyte | ...
  */
 
 struct Message {
-  enum Type : uint8_t { uninitialized, range, ack };
+  enum Type : uint8_t { uninitialized, range, control };
 
   Message() = default;
 

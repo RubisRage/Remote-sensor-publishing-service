@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DutyCycleManager/DutyCycleManager.hpp>
+#include <DutyCycleManager.hpp>
 #include <cstdint>
 #include <types/LoRaConfig.hpp>
 #include <types/Message.hpp>
@@ -26,7 +26,7 @@ public:
    * @return true if message sent, false if duty cycle restriction would
    * be violated by transmission.
    */
-  bool send(Message &);
+  bool send(const Message &);
 
   /**
    * Update LoRa configuration parameters.

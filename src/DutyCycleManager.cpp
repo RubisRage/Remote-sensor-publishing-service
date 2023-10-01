@@ -1,4 +1,4 @@
-#include <DutyCycleManager/DutyCycleManager.hpp>
+#include <DutyCycleManager.hpp>
 #include <Logger.hpp>
 #include <chrono>
 

@@ -1,7 +1,6 @@
-#include "DutyCycleManager/ArduinoClock.hpp"
 #include <Timer.hpp>
 
-bool Timer::hasTimedOut(bool reset_flag) {
+bool Timer::hasTimedOut(bool reset_on_timeout) {
   if (!waitStarted) {
     waitStarted = true;
     waitStart = ArduinoClock::now();
@@ -11,7 +10,7 @@ bool Timer::hasTimedOut(bool reset_flag) {
 
   bool timedout = ArduinoClock::now() - waitStart > timeout;
 
-  if (timedout && reset_flag) {
+  if (timedout && reset_on_timeout) {
     reset();
   }
 

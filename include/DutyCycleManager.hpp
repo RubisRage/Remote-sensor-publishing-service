@@ -1,4 +1,4 @@
-#include <DutyCycleManager/ArduinoClock.hpp>
+#include <ArduinoClock.hpp>
 #include <cstdint>
 
 constexpr auto initial_interval_between_tx = std::chrono::milliseconds(10000);

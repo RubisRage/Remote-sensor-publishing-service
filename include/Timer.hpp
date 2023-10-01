@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DutyCycleManager/ArduinoClock.hpp"
+#include "ArduinoClock.hpp"
 
 class Timer {
 public:
@@ -14,7 +14,7 @@ public:
   Timer &operator=(Timer &&) = delete;
   Timer &operator=(const Timer &) = delete;
 
-  bool hasTimedOut(bool reset_flag = true);
+  bool hasTimedOut(bool reset_on_timeout = true);
 
   inline void reset() { waitStarted = false; }
   inline void setTimeout(const ArduinoClock::duration &&timeout) {

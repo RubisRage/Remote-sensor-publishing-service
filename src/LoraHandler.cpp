@@ -9,7 +9,7 @@ LoraHandler::LoraHandler()
     : lastReceived(), _hasBeenRead(true),
       dutyCycleManager(initial_interval_between_tx) {}
 
-bool LoraHandler::send(Message &message) {
+bool LoraHandler::send(const Message &message) {
   if (!dutyCycleManager.canTransmit())
     return false;
 

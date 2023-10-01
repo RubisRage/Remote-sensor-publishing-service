@@ -35,9 +35,9 @@ struct Message {
   uint8_t destinationAddress = 0;
   uint8_t payloadLength = 0;
 
-  static constexpr uint8_t header_size = sizeof(seq) + sizeof(type) +
-                                         sizeof(sourceAddress) +
-                                         sizeof(destinationAddress);
+  static constexpr uint8_t header_size =
+      sizeof(seq) + sizeof(type) + sizeof(sourceAddress) +
+      sizeof(destinationAddress) + sizeof(payloadLength);
 
   static constexpr uint8_t max_payload = loraConfig.max_payload - header_size;
 

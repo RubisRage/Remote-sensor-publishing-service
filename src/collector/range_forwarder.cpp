@@ -12,7 +12,7 @@ void forward_ranges() {
     auto payload_buffer = connection_manager.get_payload_buffer();
 
 #ifdef DEBUG
-    Timer forward_timer(std::chrono::milliseconds(2000));
+    static Timer forward_timer(std::chrono::milliseconds(2000));
     if (payload_buffer.size() > 0 && forward_timer.hasTimedOut()) {
 #endif
       Serial.print("Forwarding payload(");

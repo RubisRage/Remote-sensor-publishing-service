@@ -25,7 +25,11 @@ bool LoraHandler::send(const Message &message) {
   LoRa.write((uint8_t)(message.seq & 0xFF));
   LoRa.write(message.type);
   LoRa.write(message.payloadLength);
-  LoRa.write(message.payload.data(), (size_t)message.payloadLength);
+  // LoRa.write(message.payload.data(), (size_t)message.payloadLength);
+
+  for (uint8_t byte : message.payload) {
+    LoRa.write(byte);
+  }
 
   LoRa.endPacket();
 
@@ -36,7 +40,7 @@ bool LoraHandler::send(const Message &message) {
 }
 
 inline bool LoraHandler::packetNotEnded(uint8_t receivedBytes, int packetSize) {
-  return receivedBytes <= uint8_t(payload.size() - 1) &&
+  return receivedBytes <= uint8_t(lastReceived.payload.size() - 1) &&
          receivedBytes < lastReceived.payloadLength &&
          Message::header_size + receivedBytes < packetSize;
 }
@@ -56,7 +60,7 @@ void LoraHandler::storeMessage() {
 
   uint8_t receivedBytes = 0;
   while (packetNotEnded(receivedBytes, packetSize)) {
-    payload[receivedBytes++] = (uint8_t)LoRa.read();
+    lastReceived.payload[receivedBytes++] = (uint8_t)LoRa.read();
   }
 
   if (lastReceived.payloadLength != receivedBytes) {

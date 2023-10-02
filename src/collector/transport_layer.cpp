@@ -1,5 +1,6 @@
 #include "transport_layer.hpp"
 #include "LoraHandler.hpp"
+#include "config/collector.h"
 
 std::array<ConnectionManager, number_of_sensor_devices> connection_managers = {
     ConnectionManager("sensor1", sensor1_address),
@@ -7,13 +8,16 @@ std::array<ConnectionManager, number_of_sensor_devices> connection_managers = {
 };
 
 void process_messages() {
+  loraHandler.storeMessage();
+
   if (!loraHandler.hasBeenRead()) {
     Message msg = loraHandler.getMessage();
 
-    uint8_t device_address = 0xf & msg.sourceAddress;
+    uint8_t device_index =
+        (device_mask & msg.sourceAddress) - device_index_offset;
 
-    if (device_address < number_of_sensor_devices) {
-      connection_managers[device_address].store_message(msg);
+    if (device_index < number_of_sensor_devices) {
+      connection_managers[device_index].store_message(msg);
     } else {
       serial.log(LogLevel::warning,
                  "Received message from unknown device! Device address: ",

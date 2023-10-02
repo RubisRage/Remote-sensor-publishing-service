@@ -2,11 +2,15 @@
 #include "LoRa.h"
 #include "Logger.hpp"
 #include "LoraHandler.hpp"
+#include "api/Compat.h"
 #include "range_forwarder.hpp"
 #include "sender.hpp"
 #include "transport_layer.hpp"
 
 void setup() {
+
+  digitalWrite(LED_BUILTIN, HIGH);
+
   Serial.begin(115200);
 
   while (!Serial)

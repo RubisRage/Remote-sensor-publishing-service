@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstddef>
+#include <iterator>
 
 template <typename T, size_t capacity> class Buffer {
 public:
@@ -32,7 +33,7 @@ public:
   }
 
   T *peek() {
-    if (buffer_start == buffer_end) {
+    if (size() == 0) {
       return nullptr;
     }
 
@@ -56,7 +57,7 @@ public:
 
     increment(buffer_end, count);
     size_ += count;
-    return &buffer[buffer_end];
+    return &buffer[buffer_end - 1];
   }
 
   size_t size() const { return size_; }

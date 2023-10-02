@@ -32,7 +32,6 @@ void setup() {
 Timer log_timer(std::chrono::milliseconds(3000));
 
 void loop() {
-
   /* Store measurments */
   store_range();
 
@@ -49,8 +48,8 @@ void loop() {
   send_message();
 
   if (log_timer.hasTimedOut()) {
-    serial.log(LogLevel::info, "Range buffer size: ", range_buffer.size());
-    serial.log(LogLevel::info, "Message buffer size: ", message_buffer.size());
-    serial.log(LogLevel::info, "Message queue size: ", message_queue.size());
+    serial.log(LogLevel::info, "Range buffer:", range_buffer.size());
+    serial.log(LogLevel::info, "Message buffer:", message_buffer.size());
+    serial.log(LogLevel::info, "Message queue:", message_queue.size());
   }
 }

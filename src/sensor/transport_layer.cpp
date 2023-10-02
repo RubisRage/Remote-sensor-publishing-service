@@ -39,6 +39,8 @@ void States::queue_unsent_msgs() {
   for (size_t i = 0; i < unsent_messages.size(); i++) {
     size_t buffer_index = *unsent_messages[i] - window_start_seq;
 
+    serial.log(LogLevel::debug, "Queued message: ", *unsent_messages[i]);
+
     message_queue.push(message_buffer[buffer_index]);
     unsent_messages.pop();
   }
@@ -54,11 +56,11 @@ void States::handle_ack() {
     return;
   }
 
-  bool is_arq = message.payload[0] == 1;
+  bool is_ack = message.payload[0] == CertSense::ack;
 
   size_t acked_messages;
 
-  if (!is_arq) {
+  if (is_ack) {
     size_t seq = message.payload[1] << 8 | message.payload[2];
     acked_messages = abs(seq - window_start_seq);
   } else {
@@ -80,6 +82,9 @@ void States::handle_ack() {
   message_buffer.pop(acked_messages);
   current_window_size -= acked_messages;
   window_start_seq += acked_messages;
+
+  serial.log(LogLevel::debug, "Updated window: wss: ", window_start_seq,
+             ", cws: ", current_window_size);
 
   received_messages.pop();
   state_machine.transition(TRANSITION(States::queue_unsent_msgs));

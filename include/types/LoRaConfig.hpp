@@ -14,7 +14,8 @@ struct LoRaConfig {
 };
 
 constexpr uint32_t tx_time = 19;
-constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 248, tx_time + tx_time * 100};
+// constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 235, tx_time + tx_time * 100};
+constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 26, tx_time + tx_time * 100};
 
 /* Possible bandwidths */
 constexpr std::array<double, 10> bandwidth_kHz = {

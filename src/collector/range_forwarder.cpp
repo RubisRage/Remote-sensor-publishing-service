@@ -8,6 +8,16 @@
 #endif
 
 void forward_ranges() {
+
+  Timer forward_timer(std::chrono::milliseconds(2000));
+
+  if (forward_timer.hasTimedOut()) {
+    Serial.println("Forwarding!");
+  }
+}
+
+/*
+void forward_ranges() {
   for (auto &connection_manager : connection_managers) {
     auto payload_buffer = connection_manager.get_payload_buffer();
 
@@ -27,3 +37,4 @@ void forward_ranges() {
 #endif
   }
 }
+*/

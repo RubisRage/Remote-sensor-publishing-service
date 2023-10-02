@@ -32,7 +32,7 @@ public:
   /* Data buffers */
 private:
   Buffer<uint8_t, max_payload_throughput> payload_buffer;
-  std::array<Message, CertSense::max_window_size> message_buffer;
+  Buffer<Message, CertSense::max_window_size> message_buffer;
 
   /* Conexion management */
 private:
@@ -40,7 +40,7 @@ private:
   uint16_t window_start_seq = CertSense::first_seq;
   uint16_t next_to_process_seq = CertSense::first_seq;
   uint16_t next_expected_seq = CertSense::first_seq;
-  std::array<bool, CertSense::max_window_size> message_has_been_received;
+  Buffer<bool, CertSense::max_window_size> message_has_been_received;
   Timer timeout;
   static constexpr auto single_message_timeout = std::chrono::milliseconds(
       int32_t(CertSense::timeout_scale * loraConfig.receive_delay_ms));

@@ -55,7 +55,6 @@ public:
 private:
   bool packetNotEnded(uint8_t receivedBytes, int packetSize);
 
-  std::array<uint8_t, 20> payload;
   Message lastReceived;
   bool _hasBeenRead;
   DutyCycleManager dutyCycleManager;

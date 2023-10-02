@@ -11,7 +11,7 @@
 ConnectionManager::ConnectionManager(const char *id,
                                      const uint8_t sender_address)
     : id(id), sender_address(sender_address),
-      timeout(single_message_timeout * max_window_size),
+      timeout(single_message_timeout * CertSense::max_window_size),
       state_machine(id,
                     TRANSITION(ConnectionManager::handle_received_messages)) {}
 
@@ -29,7 +29,7 @@ void ConnectionManager::store_message(const Message &message) {
 
   uint16_t buffer_index = message.seq - window_start_seq;
 
-  if (buffer_index < 0 || buffer_index > max_window_size) {
+  if (buffer_index < 0 || buffer_index > CertSense::max_window_size) {
     serial.log(LogLevel::info, id,
                ": Received message's seq is out of window! Droping.");
     return;
@@ -64,7 +64,7 @@ void ConnectionManager::handle_received_messages() {
     return;
   }
 
-  if (next_expected_seq == window_start_seq + max_window_size) {
+  if (next_expected_seq == window_start_seq + CertSense::max_window_size) {
     bool window_is_completed =
         std::all_of(message_has_been_received.begin(),
                     message_has_been_received.end(), [](bool b) { return b; });
@@ -95,9 +95,10 @@ void ConnectionManager::handle_received_messages() {
 }
 
 void ConnectionManager::handle_completed_window() {
-  window_start_seq += max_window_size;
+  window_start_seq += CertSense::max_window_size;
   next_to_process_seq = window_start_seq;
   next_expected_seq = window_start_seq;
+  timeout.setTimeout(single_message_timeout * CertSense::max_window_size);
 
   std::fill(message_has_been_received.begin(), message_has_been_received.end(),
             false);
@@ -108,8 +109,11 @@ void ConnectionManager::handle_completed_window() {
   ack.sourceAddress = local_address;
   ack.destinationAddress = sender_address;
   ack.payloadLength = 2;
-  ack.payload[0] = next_expected_seq << 8;
-  ack.payload[1] = 0xff & next_expected_seq;
+  ack.payload[0] = CertSense::ack;
+  ack.payload[1] = next_expected_seq << 8;
+  ack.payload[2] = 0xff & next_expected_seq;
+
+  message_queue.push(ack);
 
   state_machine.transition(
       TRANSITION(ConnectionManager::handle_received_messages));

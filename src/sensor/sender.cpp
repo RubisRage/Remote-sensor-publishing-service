@@ -1,7 +1,7 @@
 #include "sender.hpp"
 #include "LoraHandler.hpp"
 
-Buffer<Message *, max_window_size> message_queue;
+Buffer<Message *, CertSense::max_window_size> message_queue;
 
 void send_message() {
   if (message_queue.size() == 0) {

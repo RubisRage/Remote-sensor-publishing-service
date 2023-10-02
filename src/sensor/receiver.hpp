@@ -4,6 +4,6 @@
 #include "types/Message.hpp"
 #include <Buffer.hpp>
 
-extern Buffer<Message, max_window_size> received_messages;
+extern Buffer<Message, CertSense::max_window_size> received_messages;
 
 void receive_messages();

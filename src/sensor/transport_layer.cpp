@@ -18,8 +18,8 @@ void handle_ack();
 
 extern StateMachine<void (*)(void)> state_machine;
 
-Buffer<size_t, max_window_size> unsent_messages;
-size_t window_start_seq = first_seq;
+Buffer<size_t, CertSense::max_window_size> unsent_messages;
+size_t window_start_seq = CertSense::first_seq;
 size_t current_window_size = 0;
 
 void States::queue_unsent_msgs() {
@@ -30,7 +30,7 @@ void States::queue_unsent_msgs() {
 
   for (size_t seq = window_start_seq + current_window_size;
        current_window_size < message_buffer.size() &&
-       current_window_size < max_window_size;
+       current_window_size < CertSense::max_window_size;
        seq++) {
     unsent_messages.push(seq);
     current_window_size++;

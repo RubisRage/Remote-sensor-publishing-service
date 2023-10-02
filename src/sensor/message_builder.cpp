@@ -5,7 +5,7 @@
 #include "cstdint"
 #include "range.hpp"
 
-Buffer<Message, message_buffer_capacity> message_buffer;
+Buffer<Message, CertSense::message_buffer_capacity> message_buffer;
 static uint16_t seq_number = 0;
 
 void build_messages() {
@@ -13,7 +13,7 @@ void build_messages() {
     return;
   }
 
-  if (message_buffer.size() == message_buffer_capacity) {
+  if (message_buffer.size() == CertSense::message_buffer_capacity) {
     return;
   }
 
@@ -31,7 +31,7 @@ void build_messages() {
   message_buffer.push(message);
   range_buffer.pop(range_number);
 
-  serial.log<Message, message_buffer_capacity>(
+  serial.log<Message, CertSense::message_buffer_capacity>(
       LogLevel::info, "Message buffer updated: ", message_buffer,
       [](const Message &msg) {
         Serial.print(msg.seq);

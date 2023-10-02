@@ -1,7 +1,7 @@
 #include "receiver.hpp"
 #include "LoraHandler.hpp"
 
-Buffer<Message, max_window_size> received_messages;
+Buffer<Message, CertSense::max_window_size> received_messages;
 
 void receive_messages() {
   loraHandler.storeMessage();

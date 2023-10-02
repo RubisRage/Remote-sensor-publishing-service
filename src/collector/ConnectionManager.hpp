@@ -20,7 +20,7 @@ public:
   ConnectionManager &operator=(const ConnectionManager &) = delete;
 
   static constexpr size_t max_payload_throughput =
-      max_window_size * Message::max_payload;
+      CertSense::max_window_size * Message::max_payload;
 
   void manage_connection();
   void store_message(const Message &message);
@@ -32,18 +32,18 @@ public:
   /* Data buffers */
 private:
   Buffer<uint8_t, max_payload_throughput> payload_buffer;
-  std::array<Message, max_window_size> message_buffer;
+  std::array<Message, CertSense::max_window_size> message_buffer;
 
   /* Conexion management */
 private:
-  uint16_t own_seq = first_seq;
-  uint16_t window_start_seq = first_seq;
-  uint16_t next_to_process_seq = first_seq;
-  uint16_t next_expected_seq = first_seq;
-  std::array<bool, max_window_size> message_has_been_received;
+  uint16_t own_seq = CertSense::first_seq;
+  uint16_t window_start_seq = CertSense::first_seq;
+  uint16_t next_to_process_seq = CertSense::first_seq;
+  uint16_t next_expected_seq = CertSense::first_seq;
+  std::array<bool, CertSense::max_window_size> message_has_been_received;
   Timer timeout;
   static constexpr auto single_message_timeout = std::chrono::milliseconds(
-      int32_t(timeout_scale * loraConfig.receive_delay_ms));
+      int32_t(CertSense::timeout_scale * loraConfig.receive_delay_ms));
 
   /* States */
 private:

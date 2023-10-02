@@ -2,8 +2,8 @@
 #include "LoraHandler.hpp"
 
 std::array<ConnectionManager, number_of_sensor_devices> connection_managers = {
-    ConnectionManager("sensor1"),
-    ConnectionManager("sensor2"),
+    ConnectionManager("sensor1", sensor1_address),
+    ConnectionManager("sensor2", sensor2_address),
 };
 
 void process_messages() {

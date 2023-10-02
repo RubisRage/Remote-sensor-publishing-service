@@ -10,6 +10,7 @@ struct LoRaConfig {
   uint8_t codingRate;
   uint8_t txPower;
   size_t max_payload;
+  uint32_t receive_delay_ms;
 };
 
 constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 248};

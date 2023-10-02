@@ -49,6 +49,16 @@ public:
     return true;
   }
 
+  T *allocate(size_t count = 1) {
+    if (capacity - size() < count) {
+      return nullptr;
+    }
+
+    increment(buffer_end, count);
+    size_ += count;
+    return &buffer[buffer_end];
+  }
+
   size_t size() const { return size_; }
 
   void increment(size_t &index, size_t inc = 1) {

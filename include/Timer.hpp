@@ -18,6 +18,7 @@ public:
 
   inline void reset() { waitStarted = false; }
   inline void setTimeout(const ArduinoClock::duration &&timeout) {
+    reset();
     this->timeout = timeout;
   }
 

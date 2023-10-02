@@ -71,7 +71,7 @@ void LoraHandler::storeMessage() {
     return;
   }
 
-  if ((lastReceived.destinationAddress & localAddress) != localAddress) {
+  if ((lastReceived.destinationAddress & local_address) != local_address) {
     serial.log(
         LogLevel::warning,
         "Received message was not meant for local node, destination address:",

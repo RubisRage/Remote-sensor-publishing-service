@@ -26,7 +26,7 @@ struct Message {
   Message() = default;
 
   Message(uint16_t seq, uint8_t dstAddr, Type type)
-      : seq(seq), type(type), sourceAddress(localAddress),
+      : seq(seq), type(type), sourceAddress(local_address),
         destinationAddress(dstAddr), payloadLength(0), payload() {}
 
   /* Header */

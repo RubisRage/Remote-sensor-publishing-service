@@ -19,7 +19,7 @@ void build_messages() {
 
   constexpr size_t range_number = Message::max_payload / sizeof(uint16_t);
 
-  Message message(seq_number++, collectorAddress, Message::Type::range);
+  Message message(seq_number++, collector_address, Message::Type::range);
 
   for (size_t i = 0; i < range_number; i++) {
     uint16_t range = *range_buffer[i];

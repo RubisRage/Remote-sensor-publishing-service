@@ -19,7 +19,7 @@ void handle_ack();
 extern StateMachine<void (*)(void)> state_machine;
 
 Buffer<size_t, max_window_size> unsent_messages;
-size_t window_start_seq = 0;
+size_t window_start_seq = first_seq;
 size_t current_window_size = 0;
 
 void States::queue_unsent_msgs() {

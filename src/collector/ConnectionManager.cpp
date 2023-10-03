@@ -62,10 +62,15 @@ void ConnectionManager::store_message(const Message &message) {
 /* States */
 
 void ConnectionManager::handle_received_messages() {
-  if (*message_has_been_received[next_to_process_seq - window_start_seq]) {
-    const Message &to_process = *message_buffer[next_to_process_seq++];
 
-    for (size_t i = 0; i < to_process.payloadLength; i += 2) {
+  size_t buffer_index = next_to_process_seq - window_start_seq;
+
+  if (*message_has_been_received[buffer_index]) {
+    const Message &to_process = *message_buffer[buffer_index];
+
+    next_to_process_seq++;
+
+    for (size_t i = 0; i < to_process.payloadLength; i++) {
       payload_buffer.push(to_process.payload[i]);
     }
   }
@@ -105,6 +110,10 @@ void ConnectionManager::handle_completed_window() {
   message_buffer.allocate(CertSense::max_window_size);
   message_has_been_received.allocate(CertSense::max_window_size);
 
+  for (size_t i = 0; i < message_has_been_received.size(); i++) {
+    *message_has_been_received[i] = false;
+  }
+
   Message &ack = *message_queue.allocate();
   ack.seq = own_seq++;
   ack.type = Message::Type::control;
@@ -113,7 +122,7 @@ void ConnectionManager::handle_completed_window() {
   ack.payloadLength = 3;
   ack.payload[0] = CertSense::ack;
   ack.payload[1] = next_expected_seq >> 8;
-  ack.payload[2] = 0xf & next_expected_seq;
+  ack.payload[2] = 0xff & next_expected_seq;
 
   serial.log(LogLevel::debug, id, ": Completed window, wss: ", window_start_seq,
              ", nes: ", next_expected_seq, ", ntp: ", next_to_process_seq,
@@ -124,6 +133,29 @@ void ConnectionManager::handle_completed_window() {
 }
 
 void ConnectionManager::handle_uncompleted_window() {
+  Message &arq = *message_queue.allocate();
+  arq.seq = own_seq++;
+  arq.type = Message::Type::control;
+  arq.sourceAddress = local_address;
+  arq.destinationAddress = sender_address;
+  arq.payload[0] = CertSense::arq;
+  arq.payloadLength = 1;
+
+  Serial.print("MHBR: ");
+  for (size_t i = 0; i < message_has_been_received.size(); i++) {
+    if (!*message_has_been_received[i]) {
+      uint16_t arq_seq = window_start_seq + i;
+      Serial.print(arq_seq);
+      Serial.print(" ");
+
+      arq.payload[arq.payloadLength] = arq_seq << 8;
+      arq.payload[arq.payloadLength + 1] = 0xff & arq_seq;
+
+      arq.payloadLength += 2;
+    }
+  }
+  Serial.println();
+
   uint16_t acked = next_to_process_seq - window_start_seq;
 
   window_start_seq = next_to_process_seq;
@@ -140,24 +172,10 @@ void ConnectionManager::handle_uncompleted_window() {
     *message_has_been_received[i] = false;
   }
 
-  Message &arq = *message_queue.allocate();
-  arq.seq = own_seq++;
-  arq.type = Message::Type::control;
-  arq.sourceAddress = local_address;
-  arq.destinationAddress = sender_address;
-  arq.payload[0] = CertSense::arq;
-
-  arq.payloadLength = 1;
-  for (size_t i = 0; i < message_has_been_received.size(); i++) {
-    if (!message_has_been_received[i]) {
-      uint16_t arq_seq = window_start_seq + i;
-
-      arq.payload[arq.payloadLength] = arq_seq << 8;
-      arq.payload[arq.payloadLength + 1] = 0xf & arq_seq;
-
-      arq.payloadLength += 2;
-    }
-  }
+  serial.log(LogLevel::debug, id,
+             ": Uncompleted window, wss: ", window_start_seq,
+             ", nes: ", next_expected_seq, ", ntp: ", next_to_process_seq,
+             ", mq_size: ", message_queue.size());
 
   state_machine.transition(
       TRANSITION(ConnectionManager::handle_received_messages));

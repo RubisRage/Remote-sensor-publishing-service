@@ -16,6 +16,8 @@ void setup() {
   while (!Serial)
     ;
 
+  serial.printLegend();
+
   if (!LoRa.begin(868E6)) {
     serial.log(LogLevel::failure, "LoRa init failed. Check your connections.");
     while (1)

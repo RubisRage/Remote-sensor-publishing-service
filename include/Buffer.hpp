@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logger.hpp"
 #include <array>
 #include <cstddef>
 #include <iterator>
@@ -24,6 +25,8 @@ public:
 
   T *operator[](size_t offset) {
     if (offset >= size()) {
+      serial.log(LogLevel::error, __FUNCTION__,
+                 " returned nullptr! offset: ", offset, ", size: ", size());
       return nullptr;
     }
 
@@ -34,6 +37,7 @@ public:
 
   T *peek() {
     if (size() == 0) {
+      serial.log(LogLevel::error, __FUNCTION__, "returned nullptr!");
       return nullptr;
     }
 
@@ -52,15 +56,18 @@ public:
 
   T *allocate(size_t count = 1) {
     if (capacity - size() < count) {
+      serial.log(LogLevel::error, __FUNCTION__, "returned nullptr!");
       return nullptr;
     }
 
+    size_t alloc_start = buffer_end;
     increment(buffer_end, count);
     size_ += count;
-    return &buffer[buffer_end - 1];
+
+    return &buffer[alloc_start];
   }
 
-  size_t size() const { return size_; }
+  inline size_t size() const { return size_; }
 
   void increment(size_t &index, size_t inc = 1) {
     index = (index + inc) % buffer.size();

@@ -5,9 +5,9 @@
 #include "StateMachine.hpp"
 #include "Timer.hpp"
 #include "config/lora_protocol.h"
-#include "sys/_stdint.h"
 #include "types/Message.hpp"
-#include <algorithm>
+#include <cstddef>
+#include <cstdint>
 
 class ConnectionManager {
 public:

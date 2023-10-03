@@ -31,11 +31,4 @@ void build_messages() {
 
   message_buffer.push(message);
   range_buffer.pop(range_number);
-
-  serial.log<Message, CertSense::message_buffer_capacity>(
-      LogLevel::info, "Message buffer updated: ", message_buffer,
-      [](const Message &msg) {
-        Serial.print(msg.seq);
-        Serial.print(" ");
-      });
 }

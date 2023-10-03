@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <config/lora_protocol.h>
 #include <iterator>
+#include <sys/_stdint.h>
 
 #define TRANSITION(func) func, #func
 
@@ -19,8 +20,8 @@ void handle_ack();
 extern StateMachine<void (*)(void)> state_machine;
 
 Buffer<size_t, CertSense::max_window_size> unsent_messages;
-size_t window_start_seq = CertSense::first_seq;
-size_t current_window_size = 0;
+uint16_t window_start_seq = CertSense::first_seq;
+uint16_t current_window_size = 0;
 
 void States::queue_unsent_msgs() {
   if (received_messages.size() != 0) {
@@ -28,19 +29,16 @@ void States::queue_unsent_msgs() {
     return;
   }
 
-  for (size_t seq = window_start_seq + current_window_size;
-       current_window_size < message_buffer.size() &&
-       current_window_size < CertSense::max_window_size;
-       seq++) {
+  while (current_window_size < message_buffer.size() &&
+         current_window_size < CertSense::max_window_size) {
+    uint16_t seq = window_start_seq + current_window_size;
+
     unsent_messages.push(seq);
     current_window_size++;
   }
 
   for (size_t i = 0; i < unsent_messages.size(); i++) {
-    size_t buffer_index = *unsent_messages[i] - window_start_seq;
-
-    serial.log(LogLevel::debug, "Queued message: ", *unsent_messages[i]);
-
+    size_t buffer_index = *unsent_messages.peek() - window_start_seq;
     message_queue.push(message_buffer[buffer_index]);
     unsent_messages.pop();
   }
@@ -61,12 +59,12 @@ void States::handle_ack() {
   size_t acked_messages;
 
   if (is_ack) {
-    size_t seq = message.payload[1] << 8 | message.payload[2];
-    acked_messages = abs(seq - window_start_seq);
+    uint16_t seq = message.payload[1] << 8 | message.payload[2];
+    acked_messages = seq - window_start_seq;
   } else {
     uint16_t min_arq_seq = message.payload[1] << 8 | message.payload[2];
 
-    for (size_t i = 3; i + 1 < message.payloadLength; i += 2) {
+    for (size_t i = 1; i + 1 < message.payloadLength; i += 2) {
       uint16_t seq = message.payload[i] << 8 | message.payload[i + 1];
 
       if (seq < min_arq_seq) {
@@ -76,7 +74,7 @@ void States::handle_ack() {
       unsent_messages.push(seq);
     }
 
-    acked_messages = abs(min_arq_seq - window_start_seq);
+    acked_messages = min_arq_seq - window_start_seq;
   }
 
   message_buffer.pop(acked_messages);

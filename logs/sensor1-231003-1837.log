@@ -1,0 +1,579 @@
+Log legend
+
+		(FF): Complete failure
+		(EE): Error
+		(WW): Warning
+		(II): Information
+		(SS): Statistics
+		(TT): Transition
+		(DD): Debug
+(WW) -> Sensor's throughput is greater than the networks's throughput!
+(II) -> Range buffer: 9 
+(II) -> Message buffer: 2 
+(II) -> Message queue: 2 
+(II) -> Range buffer: 8 
+(II) -> Message buffer: 5 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x0
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 0.40 % 
+(II) -> Duty cycle under 0.8%, adjusting. Was 10000 ms, now is  4000 ms 
+(II) -> Range buffer: 7 
+(II) -> Message buffer: 8 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x1
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 17 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 46 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x2
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x0
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 3 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  3 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 45 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x3
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 75 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x4
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 104 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 133 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x5
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x1
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 6 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  6 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 132 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x6
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 162 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x7
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 191 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 220 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x8
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x2
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 9 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  9 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 219 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x9
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 249 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xA
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 278 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 307 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xB
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x3
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 C 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  12 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 306 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xC
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 336 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xD
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 365 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 394 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xE
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9C 0 9C 0 9C 0 9C 0 9D 1 30 0 1E 0 A0 0 1F 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x4
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 F 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x4
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 F 
+}
+(DD) -> Updated window: wss:  15 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  15 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 393 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0xF
+		Message type: range
+		Payload length: 20
+		Payload: 0 9E 1 E 0 9D 0 20 0 A0 0 9C 0 9D 0 9E 1 F 1 F 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 423 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x10
+		Message type: range
+		Payload length: 20
+		Payload: 0 0 0 0 0 9E 1 D8 0 A3 0 A3 1 F 1 F 0 1E 0 0 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 452 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Range buffer: 481 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x11
+		Message type: range
+		Payload length: 20
+		Payload: 0 9E 0 A1 0 36 0 A2 1 10 0 2B 0 29 0 29 0 9F 0 1E 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x5
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 12 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  18 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 480 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x12
+		Message type: range
+		Payload length: 20
+		Payload: 0 9B 0 9C 0 9C 0 9C 0 9C 0 9C 0 9E 0 9C 0 9C 0 9C 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(II) -> Range buffer: 510 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x13
+		Message type: range
+		Payload length: 20
+		Payload: 0 9C 0 9D 0 9C 0 9C 0 A1 1 10 0 9C 1 11 0 26 1 F 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Range buffer: 512 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Range buffer: 512 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x14
+		Message type: range
+		Payload length: 20
+		Payload: 0 9E 0 B6 0 9D 0 A0 0 9F 0 9F 0 A3 0 9F 0 A0 1 10 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Received message:
+{
+		Sender address: 0xB0
+		Recipient address: 0xB1
+		Message ID: 0x6
+		Message type: control
+		Payload length: 3
+		Payload: 0 0 15 
+}
+(TT) -> Transitioning from " States::queue_unsent_msgs " to " States::handle_ack " 
+(DD) -> Updated window: wss:  21 , cws:  0 
+(TT) -> Transitioning from " States::handle_ack " to " States::queue_unsent_msgs " 
+(II) -> Range buffer: 506 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 3 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x15
+		Message type: range
+		Payload length: 20
+		Payload: 0 A1 0 A0 0 9F 0 1D 0 9A 0 2D 0 9C 0 9F 0 FD 0 21 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Range buffer: 512 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 2 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Sending message:
+{
+		Sender address: 0xB1
+		Recipient address: 0xB0
+		Message ID: 0x16
+		Message type: range
+		Payload length: 20
+		Payload: 0 2E 0 2D 0 27 0 0 0 2D 0 29 0 25 0 D4 0 2B 0 29 
+}
+(SS) -> Tx completed in 40 ms 
+(SS) -> Duty cycle is 1.00 % 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(II) -> Range buffer: 512 
+(II) -> Message buffer: 10 
+(II) -> Message queue: 1 
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.
+(EE) -> Range buffer overflow. Dropping measurement.

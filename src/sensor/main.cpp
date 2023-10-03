@@ -3,6 +3,7 @@
 #include "LoraHandler.hpp"
 #include "Srf02.hpp"
 #include "Timer.hpp"
+#include "config/sensor.h"
 #include "range.hpp"
 #include "sender.hpp"
 #include "sensor/message_builder.hpp"
@@ -17,6 +18,14 @@ void setup() {
 
   while (!Serial)
     ;
+
+  serial.printLegend();
+
+  if (ranges_generated_per_ms > ranges_throughput_per_ms) {
+    serial.log(
+        LogLevel::warning,
+        "Sensor's throughput is greater than the networks's throughput!");
+  }
 
   if (!LoRa.begin(868E6)) {
     serial.log(LogLevel::failure, "LoRa init failed. Check your connections.");

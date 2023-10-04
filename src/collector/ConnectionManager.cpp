@@ -75,28 +75,31 @@ void ConnectionManager::handle_received_messages() {
     }
   }
 
+  bool completed_window = true;
+  for (size_t i = 0; i < message_has_been_received.size(); i++) {
+    completed_window &= *message_has_been_received[i];
+  }
+
+  if (completed_window) {
+    state_machine.transition(
+        TRANSITION(ConnectionManager::handle_completed_window));
+    return;
+  }
+
+  if (next_expected_seq == (window_start_seq + CertSense::max_window_size)) {
+    state_machine.transition(
+        TRANSITION(ConnectionManager::handle_uncompleted_window));
+    return;
+  }
+
   /* TODO: Set correct timeout
   if (timeout.hasTimedOut()) {
     serial.log(LogLevel::error, id, ": Timeout!\n");
     state_machine.transition(
         TRANSITION(ConnectionManager::handle_uncompleted_window));
+        return;
   }
   */
-
-  if (next_expected_seq == (window_start_seq + CertSense::max_window_size)) {
-    bool completed_window = true;
-    for (size_t i = 0; i < message_has_been_received.size(); i++) {
-      completed_window &= *message_has_been_received[i];
-    }
-
-    if (completed_window) {
-      state_machine.transition(
-          TRANSITION(ConnectionManager::handle_completed_window));
-    } else {
-      state_machine.transition(
-          TRANSITION(ConnectionManager::handle_uncompleted_window));
-    }
-  }
 }
 
 void ConnectionManager::handle_completed_window() {

@@ -50,6 +50,7 @@ void States::handle_ack() {
   if (message.type != Message::Type::control) {
     serial.log(LogLevel::info,
                "Received message's type is not control! Droping.");
+    received_messages.pop();
     state_machine.transition(TRANSITION(States::queue_unsent_msgs));
     return;
   }

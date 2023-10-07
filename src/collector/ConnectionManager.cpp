@@ -13,8 +13,7 @@
 
 ConnectionManager::ConnectionManager(const char *id,
                                      const uint8_t sender_address)
-    : id(id), sender_address(sender_address),
-      timeout(single_message_timeout * CertSense::max_window_size),
+    : id(id), sender_address(sender_address), timeout(),
       state_machine(id,
                     TRANSITION(ConnectionManager::handle_received_messages)) {
   message_buffer.allocate(CertSense::max_window_size);
@@ -51,7 +50,8 @@ void ConnectionManager::store_message(const Message &message) {
   next_expected_seq = message.seq + 1;
 
   uint16_t remaining_messages =
-      (window_start_seq + CertSense::max_window_size) - message.seq;
+      (window_start_seq + CertSense::max_window_size) - message.seq - 1;
+
   timeout.setTimeout(single_message_timeout * remaining_messages);
 
   serial.log(LogLevel::debug, id, ": Received message, wss: ", window_start_seq,
@@ -92,14 +92,12 @@ void ConnectionManager::handle_received_messages() {
     return;
   }
 
-  /* TODO: Set correct timeout
   if (timeout.hasTimedOut()) {
     serial.log(LogLevel::error, id, ": Timeout!\n");
     state_machine.transition(
         TRANSITION(ConnectionManager::handle_uncompleted_window));
-        return;
+    return;
   }
-  */
 }
 
 void ConnectionManager::handle_completed_window() {
@@ -131,6 +129,7 @@ void ConnectionManager::handle_completed_window() {
              ", nes: ", next_expected_seq, ", ntp: ", next_to_process_seq,
              ", seq: ");
 
+  timeout.setTimeout(single_message_timeout * CertSense::max_window_size);
   state_machine.transition(
       TRANSITION(ConnectionManager::handle_received_messages));
 }
@@ -144,12 +143,9 @@ void ConnectionManager::handle_uncompleted_window() {
   arq.payload[0] = CertSense::arq;
   arq.payloadLength = 1;
 
-  Serial.print("MHBR: ");
   for (size_t i = 0; i < message_has_been_received.size(); i++) {
     if (!*message_has_been_received[i]) {
       uint16_t arq_seq = window_start_seq + i;
-      Serial.print(arq_seq);
-      Serial.print(" ");
 
       arq.payload[arq.payloadLength] = arq_seq << 8;
       arq.payload[arq.payloadLength + 1] = 0xff & arq_seq;
@@ -157,7 +153,6 @@ void ConnectionManager::handle_uncompleted_window() {
       arq.payloadLength += 2;
     }
   }
-  Serial.println();
 
   uint16_t acked = next_to_process_seq - window_start_seq;
 
@@ -180,6 +175,7 @@ void ConnectionManager::handle_uncompleted_window() {
              ", nes: ", next_expected_seq, ", ntp: ", next_to_process_seq,
              ", mq_size: ", message_queue.size());
 
+  timeout.setTimeout(single_message_timeout * CertSense::max_window_size);
   state_machine.transition(
       TRANSITION(ConnectionManager::handle_received_messages));
 }

@@ -5,7 +5,9 @@
 class Timer {
 public:
   inline Timer(ArduinoClock::duration timeout)
-      : waitStarted(false), timeout(timeout) {}
+      : waitStarted(false), timeout(timeout) {
+    enable();
+  }
 
   Timer() = default;
   ~Timer() = default;
@@ -19,11 +21,15 @@ public:
   inline void reset() { waitStarted = false; }
   inline void setTimeout(const ArduinoClock::duration &&timeout) {
     reset();
+    enable();
     this->timeout = timeout;
   }
 
+  inline void enable() { disabled = false; }
+
 private:
   bool waitStarted;
+  bool disabled = true;
   ArduinoClock::time_point waitStart;
   ArduinoClock::duration timeout;
 };

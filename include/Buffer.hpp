@@ -56,7 +56,7 @@ public:
 
   T *allocate(size_t count = 1) {
     if (capacity - size() < count) {
-      serial.log(LogLevel::error, __FUNCTION__, "returned nullptr!");
+      serial.log(LogLevel::error, __FUNCTION__, " returned nullptr!");
       return nullptr;
     }
 

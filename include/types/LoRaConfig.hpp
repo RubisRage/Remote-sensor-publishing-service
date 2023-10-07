@@ -13,7 +13,7 @@ struct LoRaConfig {
   uint32_t receive_delay_ms;
 };
 
-constexpr uint32_t tx_time = 19;
+constexpr uint32_t tx_time = 41;
 // constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 235, tx_time + tx_time * 100};
 constexpr LoRaConfig loraConfig = {8, 7, 1, 2, 26, tx_time + tx_time * 100};
 

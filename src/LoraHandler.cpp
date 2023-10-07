@@ -1,3 +1,4 @@
+#include "config/lora_protocol.h"
 #include "types/Message.hpp"
 #include <LoRa.h>
 #include <Logger.hpp>
@@ -6,7 +7,7 @@
 #include <stdlib.h>
 
 LoraHandler::LoraHandler()
-    : lastReceived(), _hasBeenRead(true),
+    : lastReceived(), _hasBeenRead(true), last_seq(CertSense::first_seq - 1),
       dutyCycleManager(initial_interval_between_tx) {}
 
 bool LoraHandler::send(const Message &message) {
@@ -39,9 +40,10 @@ bool LoraHandler::send(const Message &message) {
   return true;
 }
 
-inline bool LoraHandler::packetNotEnded(uint8_t receivedBytes, int packetSize) {
+inline bool LoraHandler::packetNotEnded(uint8_t receivedBytes, int packetSize,
+                                        uint8_t payload_length) {
   return receivedBytes <= uint8_t(lastReceived.payload.size() - 1) &&
-         receivedBytes < lastReceived.payloadLength &&
+         receivedBytes < payload_length &&
          Message::header_size + receivedBytes < packetSize;
 }
 
@@ -52,22 +54,24 @@ void LoraHandler::storeMessage() {
   if (packetSize == 0)
     return;
 
-  lastReceived.destinationAddress = LoRa.read();
-  lastReceived.sourceAddress = LoRa.read();
-  lastReceived.seq = ((uint16_t)LoRa.read() << 8) | (uint16_t)LoRa.read();
-  lastReceived.type = Message::Type(LoRa.read());
-  lastReceived.payloadLength = LoRa.read();
+  Message packet;
+
+  packet.destinationAddress = LoRa.read();
+  packet.sourceAddress = LoRa.read();
+  packet.seq = ((uint16_t)LoRa.read() << 8) | (uint16_t)LoRa.read();
+  packet.type = Message::Type(LoRa.read());
+  packet.payloadLength = LoRa.read();
 
   uint8_t receivedBytes = 0;
-  while (packetNotEnded(receivedBytes, packetSize)) {
-    lastReceived.payload[receivedBytes++] = (uint8_t)LoRa.read();
+  while (packetNotEnded(receivedBytes, packetSize, packet.payloadLength)) {
+    packet.payload[receivedBytes++] = (uint8_t)LoRa.read();
   }
 
-  if (lastReceived.payloadLength != receivedBytes) {
+  if (packet.payloadLength != receivedBytes) {
     serial.log(LogLevel::debug, "Receiving error: declared message length ",
                lastReceived.payloadLength, " does not match length ",
                receivedBytes);
-    lastReceived.payloadLength = 0;
+    packet.payloadLength = 0;
 
     serial.log(LogLevel::error, "Received message (Payload omitted)",
                lastReceived);
@@ -75,17 +79,26 @@ void LoraHandler::storeMessage() {
     return;
   }
 
-  if ((lastReceived.destinationAddress & local_address) != local_address) {
+  if (packet.destinationAddress != local_address &&
+      packet.destinationAddress != broadcast_address) {
     serial.log(
         LogLevel::warning,
         "Received message was not meant for local node, destination address:",
-        lastReceived.destinationAddress, ", dropping.");
+        packet.destinationAddress, ", dropping.");
 
     return;
   }
 
-  serial.log(LogLevel::info, "Received message:", lastReceived);
+  if (last_seq == packet.seq &&
+      lastReceived.sourceAddress == packet.sourceAddress) {
+    serial.log(LogLevel::error, "Received duplicate message, dropping.");
+    return;
+  }
 
+  serial.log(LogLevel::info, "Received message:", packet);
+
+  lastReceived = packet;
+  last_seq = lastReceived.seq;
   _hasBeenRead = false;
 }
 

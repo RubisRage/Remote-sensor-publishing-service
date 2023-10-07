@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sys/_stdint.h"
 #include <DutyCycleManager.hpp>
 #include <cstdint>
 #include <types/LoRaConfig.hpp>
@@ -53,10 +54,12 @@ public:
   void storeMessage();
 
 private:
-  bool packetNotEnded(uint8_t receivedBytes, int packetSize);
+  bool packetNotEnded(uint8_t receivedBytes, int packetSize,
+                      uint8_t payload_length);
 
   Message lastReceived;
   bool _hasBeenRead;
+  uint16_t last_seq;
   DutyCycleManager dutyCycleManager;
 };
 

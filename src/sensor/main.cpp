@@ -35,6 +35,8 @@ void setup() {
 
   loraHandler.setup(loraConfig);
 
+  randomSeed(0);
+
   init_sensor();
 }
 

@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstdint>
 
+constexpr uint8_t broadcast_address = 0xFF;
 constexpr uint8_t collector_address = 0xB0;
 constexpr uint8_t sensor1_address = 0xB1;
 constexpr uint8_t sensor2_address = 0xB2;

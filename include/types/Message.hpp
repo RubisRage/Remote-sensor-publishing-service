@@ -5,7 +5,7 @@
 #include <config/address.h>
 #include <cstdint>
 
-constexpr std::array<const char *, 3> messageTypesNames = {"unititialized",
+constexpr std::array<const char *, 3> messageTypesNames = {"uninitialized",
                                                            "range", "control"};
 /*
  * Payload format for message types (bytewise)

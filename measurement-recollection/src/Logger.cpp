@@ -4,7 +4,7 @@
 #include <array>
 #include <string>
 
-#ifdef LOGGER_DISABLE
+#ifdef SERIAL_FORWARDING
 Logger::Logger() {}
 
 void Logger::printLabel(LogLevel level) {}

@@ -6,7 +6,7 @@
 
 enum LogLevel { failure, error, warning, info, statistics, transition, debug };
 
-#ifdef LOGGER_DISABLE
+#ifdef SERIAL_FORWARDING
 class Logger {
 public:
   Logger();

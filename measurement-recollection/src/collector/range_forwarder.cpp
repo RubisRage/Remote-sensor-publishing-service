@@ -6,6 +6,9 @@ constexpr uint8_t start_byte = 254;
 constexpr uint8_t end_byte = 253;
 
 void forward_ranges() {
+
+#ifdef SERIAL_FORWARDING
+
   for (auto &connection_manager : connection_managers) {
     auto &payload_buffer = connection_manager.get_payload_buffer();
 
@@ -29,4 +32,6 @@ void forward_ranges() {
                "Cleared: ", payload_buffer.pop(payload_buffer.size()));
     serial.log(LogLevel::debug, "Size: ", payload_buffer.size());
   }
+
+#endif
 }

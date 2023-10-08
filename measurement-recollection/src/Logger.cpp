@@ -4,6 +4,18 @@
 #include <array>
 #include <string>
 
+#ifdef LOGGER_DISABLE
+Logger::Logger() {}
+
+void Logger::printLabel(LogLevel level) {}
+
+void Logger::log(LogLevel level, const char *logMessage, const char *end) {}
+
+void Logger::log(LogLevel level, const char *logMessage, Message message) {}
+
+void Logger::printLegend() {}
+#else
+
 struct Level {
   const char *label;
   const char *legend;
@@ -74,6 +86,7 @@ void Logger::printLegend() {
     Serial.println(levels[i].legend);
   }
 }
+#endif
 
 /* Global declarations (extern) */
 Logger serial;

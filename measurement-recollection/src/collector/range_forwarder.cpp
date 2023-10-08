@@ -1,40 +1,32 @@
 #include "Arduino.h"
 #include "transport_layer.hpp"
+#include <sys/_stdint.h>
 
-#define DEBUG
+constexpr uint8_t start_byte = 254;
+constexpr uint8_t end_byte = 253;
 
-#ifdef DEBUG
-#include "Timer.hpp"
-#endif
-
-void forward_ranges() {
-
-  Timer forward_timer(std::chrono::milliseconds(2000));
-
-  if (forward_timer.hasTimedOut()) {
-    Serial.println("Forwarding!");
-  }
-}
-
-/*
 void forward_ranges() {
   for (auto &connection_manager : connection_managers) {
-    auto payload_buffer = connection_manager.get_payload_buffer();
+    auto &payload_buffer = connection_manager.get_payload_buffer();
 
-#ifdef DEBUG
-    static Timer forward_timer(std::chrono::milliseconds(2000));
-    if (payload_buffer.size() > 0 && forward_timer.hasTimedOut()) {
-#endif
-      Serial.print("Forwarding payload(");
-      Serial.print(connection_manager.id);
-      for (size_t i = 0; i < payload_buffer.size(); i++) {
-        Serial.print(*payload_buffer[i]);
-        Serial.print(" ");
-      }
-      Serial.println();
-#ifdef DEBUG
+    if (payload_buffer.size() == 0) {
+      continue;
     }
-#endif
+
+    serial.log(LogLevel::info, connection_manager.id,
+               ": Forwarding measurements! (", payload_buffer.size(), ")");
+
+    Serial.write(start_byte);
+    Serial.write(connection_manager.sender_address & 0xf);
+    for (size_t i = 0; i < payload_buffer.size(); i++) {
+      Serial.write(*payload_buffer[i]);
+    }
+    Serial.write(end_byte);
+
+    Serial.println();
+
+    serial.log(LogLevel::debug,
+               "Cleared: ", payload_buffer.pop(payload_buffer.size()));
+    serial.log(LogLevel::debug, "Size: ", payload_buffer.size());
   }
 }
-*/

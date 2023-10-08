@@ -6,6 +6,47 @@
 
 enum LogLevel { failure, error, warning, info, statistics, transition, debug };
 
+#ifdef LOGGER_DISABLE
+class Logger {
+public:
+  Logger();
+  ~Logger() = default;
+
+  Logger(Logger &&) = delete;
+  Logger(const Logger &) = delete;
+  Logger &operator=(Logger &&) = delete;
+  Logger &operator=(const Logger &) = delete;
+
+  void log(LogLevel, const char *, const char *endStr = "\n");
+
+  /**
+   * Log out succession of " " separated values with arbitrary types.
+   *
+   * WARNING: Attempting to log values not supported by Arduino's Serial.print
+   * function will result in compilation errors.
+   */
+  template <typename... Printable> void log(LogLevel level, Printable... msgs) {
+    printLabel(level);
+
+    print(msgs...);
+  }
+
+  void log(LogLevel, const char *, Message);
+
+  void printLegend();
+
+private:
+  void printLabel(LogLevel level);
+
+  template <typename T> void print(T t) {}
+
+  template <typename T, typename... Printable> void print(T t, Printable... p) {
+
+    print(p...);
+  }
+};
+#else
+
 class Logger {
 public:
   Logger();
@@ -51,5 +92,6 @@ private:
     print(p...);
   }
 };
+#endif
 
 extern Logger serial;

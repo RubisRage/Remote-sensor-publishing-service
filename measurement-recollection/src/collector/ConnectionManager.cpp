@@ -13,7 +13,7 @@
 
 ConnectionManager::ConnectionManager(const char *id,
                                      const uint8_t sender_address)
-    : id(id), sender_address(sender_address), timeout(),
+    : id(id), sender_address(sender_address), payload_buffer(), timeout(),
       state_machine(id,
                     TRANSITION(ConnectionManager::handle_received_messages)) {
   message_buffer.allocate(CertSense::max_window_size);
@@ -25,15 +25,9 @@ void ConnectionManager::manage_connection() {
   (this->*state)();
 }
 
-const Buffer<uint8_t, ConnectionManager::max_payload_throughput>
+Buffer<uint8_t, ConnectionManager::max_payload_throughput> &
 ConnectionManager::get_payload_buffer() {
-  Buffer<uint8_t, ConnectionManager::max_payload_throughput> payload;
-
-  for (size_t i = 0; i < payload_buffer.size(); i++) {
-    payload.push(*payload_buffer[i]);
-  }
-
-  return payload;
+  return payload_buffer;
 }
 
 void ConnectionManager::store_message(const Message &message) {

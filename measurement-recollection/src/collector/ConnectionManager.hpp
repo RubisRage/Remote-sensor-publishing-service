@@ -24,7 +24,7 @@ public:
 
   void manage_connection();
   void store_message(const Message &message);
-  const Buffer<uint8_t, max_payload_throughput> get_payload_buffer();
+  Buffer<uint8_t, max_payload_throughput> &get_payload_buffer();
 
   const char *const id;
   const uint8_t sender_address;

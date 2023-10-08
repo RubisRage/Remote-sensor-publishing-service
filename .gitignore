@@ -6,4 +6,6 @@ compile_commands.json
 .vscode
 .clangd
 .compiledb.py
-logs/device*
+measurement-recollection/logs/device*
+mqtt/build/
+mqtt/pub/boost

@@ -3,15 +3,17 @@
 #include <array>
 
 #include <boost/asio.hpp>
+#include <cstdint>
+#include <string>
 
 class serialPortHandler {
 public:
-  static constexpr size_t buffer_size = 100;
-  typedef std::array<char, buffer_size> buffer_type;
+  static constexpr std::size_t buffer_size = 23;
+  typedef std::array<uint8_t, buffer_size> buffer_type;
 
   serialPortHandler(const std::string &portName);
   ~serialPortHandler();
-  std::array<char, buffer_size> read();
+  buffer_type read();
 
 private:
   buffer_type data{0};

@@ -2,7 +2,7 @@
 
 serialPortHandler::serialPortHandler(const std::string &portName) {
   port.open(portName);
-  port.set_option(boost::asio::serial_port::baud_rate(9600));
+  port.set_option(boost::asio::serial_port::baud_rate(115200));
 }
 
 serialPortHandler::buffer_type serialPortHandler::read() {

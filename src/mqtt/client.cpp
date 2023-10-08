@@ -1,47 +1,83 @@
-#include <iostream>
 #include <array>
+#include <functional>
+#include <iostream>
 
 #include "mosquittopp.h"
 #include "serial.hpp"
+#include <algorithm>
+#include <csignal>
 
-constexpr char startByte = 's';
-constexpr char stopByte = 'e';
-constexpr int packetSize = 4;
+constexpr char startByte = 254;
+constexpr size_t payload_size = 20;
 
-int main(){
-   
-	mosqpp::lib_init();
-	mosqpp::mosquittopp mqtt{};
+bool running = true;
 
-    int conn = mqtt.connect("127.0.0.1");
-	if(conn == MOSQ_ERR_SUCCESS)
-	{
-		std::cout << "successfully connected to MQTT Broker" << '\n'; 
-	}
+void publish(const std::array<char, payload_size> &data) {
 
-    serialPortHandler serialHandler("/dev/ttyACM0");
+  const char *topic;
 
-    while(true){
-        auto data = serialHandler.read();
+  switch (data[0]) {
+  case 1:
+    topic = "/srf02/1";
+    break;
+  case 2:
+    topic = "/srf02/2";
+    break;
+  default:
+    std::cerr << "Received unknown sensor id!" << '\n';
+    return;
+  }
 
-        std::size_t n {1};
+  for (size_t i = 1; i + 1 < data.size(); i += 2) {
+    std::pair<char, char> measure{data[i], data[i + 1]};
 
-        for(std::size_t i = 0; i < data.size() - packetSize; i = i + n){
-            n = 1;
-            if(data[i] == startByte && data[i + packetSize] == stopByte){
-                std::pair<char, char> measure {data[i + 2], data[i + 3]};
-                const char* topic = data[i + 1] == '1' ? "/srf02/1" : "/srf02/2";
-                if(int pub = mqtt.publish(NULL, topic, sizeof(measure), &measure);
-		            pub != MOSQ_ERR_SUCCESS){
-		            std::cout << "Error publishing message to topic " << topic << '\n';
-                    continue; 	
-	            }
-                n = packetSize;
-            }
-        }
+    if (int pub = mqtt.publish(NULL, topic, sizeof(measure), &measure);
+        pub != MOSQ_ERR_SUCCESS) {
+      std::cerr << "Error publishing message to topic: " << topic << '\n';
     }
+  }
+}
 
-    mosqpp::lib_cleanup();
+int main() {
 
-    return 0;
+  mosqpp::lib_init();
+  mosqpp::mosquittopp mqtt{};
+
+  int conn = mqtt.connect("127.0.0.1");
+  if (conn == MOSQ_ERR_SUCCESS) {
+    std::cout << "Successfully connected to MQTT Broker!" << '\n';
+  }
+
+  serialPortHandler serialHandler("/dev/ttyACM0");
+  std::array<char, payload_size> payload;
+  auto payload_it = payload.begin();
+
+  signal(SIGINT, [](int) { running = false; });
+
+  while (running) {
+    auto data = serialHandler.read();
+
+    serialPortHandler::buffer_type::iterator start = data.begin();
+    serialPortHandler::buffer_type::iterator stop;
+
+    while (stop != data.end()) {
+      if (payload_it == payload.begin()) {
+        start = std::find(start, data.end(), startByte);
+      }
+
+      stop = std::min(start + (payload.end() - payload_it), data.end());
+
+      payload_it = std::copy(start, stop, payload_it);
+      start = stop;
+
+      if (payload_it == payload.end()) {
+        publish(payload);
+        payload_it = payload.begin();
+      }
+    }
+  }
+
+  mosqpp::lib_cleanup();
+
+  return 0;
 }

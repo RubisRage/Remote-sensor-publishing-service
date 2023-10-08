@@ -8,7 +8,7 @@
 
 class serialPortHandler {
 public:
-  static constexpr std::size_t buffer_size = 23;
+  static constexpr std::size_t buffer_size = 40;
   typedef std::array<uint8_t, buffer_size> buffer_type;
 
   serialPortHandler(const std::string &portName);

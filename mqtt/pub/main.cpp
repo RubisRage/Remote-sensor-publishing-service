@@ -14,7 +14,7 @@ constexpr size_t max_measurement_throughput = 3 * 20;
 
 bool running = true;
 
-void publish(mosqpp::mosquittopp mqtt, const std::vector<uint8_t> &payload) {
+void publish(mosqpp::mosquittopp &mqtt, const std::vector<uint8_t> &payload) {
 
   std::cout << "Publishing message with size: " << payload.size() << '\n';
 
@@ -73,7 +73,7 @@ int main() {
 
     while (stop != data.end()) {
       if (payload.size() == 0) {
-        start = std::find(start, data.end(), start_byte);
+        start = std::find(start, data.end(), start_byte) + 1;
         if (start == data.end()) {
           break;
         }
@@ -81,7 +81,7 @@ int main() {
 
       stop = std::find(start, data.end(), end_byte);
 
-      std::copy(start + 1, stop, std::back_inserter(payload));
+      std::copy(start, stop, std::back_inserter(payload));
 
       start = stop;
 

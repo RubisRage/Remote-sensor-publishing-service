@@ -19,7 +19,7 @@ void MQTT::on_message(const struct mosquitto_message *message) {
   uint8_t buf[2];
   memcpy(buf, message->payload, 2 * sizeof(uint8_t));
   uint16_t measure = buf[0] << 8 | buf[1];
-  std::cout << "Topic " << message->topic << ": " << measure << '\n';
+  std::cout << "Topic " << message->topic << ": " << measure << " cm\n";
 }
 
 void MQTT::on_subscribe(int mid, int qos_count, const int *granted_qos) {
